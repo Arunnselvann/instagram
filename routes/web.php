@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\RegistrationController;
 
+use App\Http\Mail\ForgotPasswordMail;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -27,3 +29,10 @@ Route::post('/home',[RegistrationController::class,'home'])->name('home');
 Route::get('/welcome',[RegistrationController::class,'firstPage'])->name('welcome');
 
 Route::get('/log-out',[RegistrationController::class,'logout'])->name('log-out');
+
+Route::get('/forgot-password',[RegistrationController::class,'forgotPassword'])->name('forgot-password');
+Route::post('/password-change',[RegistrationController::class,'passwordChange'])->name('password-change');
+
+Route::get('/send-mail/{id}',[RegistrationController::class,'sendMail'])->name('send-mail');
+
+Route::post('/password-changed',[RegistrationController::class,'passwordChanged'])->name('password-changed');

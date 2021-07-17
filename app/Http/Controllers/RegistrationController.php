@@ -7,6 +7,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 use App\Models\register;
+use Mail;
+
+use App\Http\Mail\ForgotPasswordMail;
 
 class RegistrationController extends Controller
 {
@@ -42,13 +45,47 @@ class RegistrationController extends Controller
        
     }
 
+    public function firstPage()
+    {
+        return view('firstpage');
+    }
+
     public function logout()
     {
         return redirect()->route('sign-in');
     }
 
-    public function firstPage()
+    public function forgotPassword()
     {
-        return view('firstpage');
+        return view('forgotpassword');
     }
+
+    public function passwordChange(Request $request)
+    {
+        $user = $this->user->where('email',$request->email)->first();
+        if($user == TRUE){
+            Mail::to($request->email)->send(new \App\Mail\forgotPasswordMail($user));
+            return back();
+        } else {
+            return back();
+        }
+              
+    }
+
+    public function sendMail($id)
+    {
+        return view('changepassword',compact('id'));
+        return back();
+    }
+
+    public function passwordChanged(Request $request)
+    {
+        if($request->password == $request->confirm_password) {    
+            $user = $this->user->where('id',$request->id)->update(['password'=>$request->password]);
+            return redirect()->route('sign-in');
+        } else {
+            return back();
+        }
+    }
+
 }

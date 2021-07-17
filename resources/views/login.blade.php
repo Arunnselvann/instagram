@@ -8,21 +8,30 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 </head>
 <body>
-    <h3 class="container">Login</h3>
-        <form method="post" class="container" action="{{route('home')}}">
+    
+    <br>
+    <h3 class="text-center">Login</h3>
+    <br>
+    <br>
+        <form method="post" class="container card p-3" style="width:20rem;" action="{{route('home')}}">
             @csrf
             Email:<br>
             <input type="email" name="email"><br>
             Password:<br>
             <input type="password" name="password"><br>
             <br>
-            <input type="submit" name="login" value="login" class="btn btn-info"><br><br>
-            <a type="submit" name="forgot" href="{{('forgot-password')}}" class="btn btn-secondary">forgot password</a>
-        </form><br>
-        <div class="container">
+            <div class="row">
+            <a type="submit" name="forgot" href="{{('forgot-password')}}" class="btn btn-secondary col-lg-6">forgot password</a>
+                <input type="submit" name="login" value="login" class="btn btn-info col-lg-6">
+                
+            </div>
+            <br>
+            <div class="container ">
             <p> If you are not a user</a><br>
             <a class="btn btn-primary" type="submit" href="{{route('sign-up')}}">click here</a>
         </div>
+        </form><br>
+       
 
 
 
