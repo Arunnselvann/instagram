@@ -7,15 +7,21 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 use App\Models\register;
+
+use App\Models\followers;
+
 use Mail;
+
+use Session;
 
 use App\Http\Mail\ForgotPasswordMail;
 
 class RegistrationController extends Controller
 {
-    public function __construct(register $user)
+    public function __construct(register $user, followers $followers)
     {
         $this->user = $user;
+        $this->followers = $followers;
     }
 
     public function index()
@@ -38,7 +44,13 @@ class RegistrationController extends Controller
     {
         $user = $this->user->where('email',$request->email)->where('password',$request->password)->first();
         if ($user == true){
-        return redirect()->route('welcome');
+            $request->session()->put('user',$user['id']);
+            if($request->session()->has('user')){
+                return redirect()->route('welcome');
+            } else {
+                return back();
+            }
+           
         } else {
             return back();
         }
@@ -47,11 +59,20 @@ class RegistrationController extends Controller
 
     public function firstPage()
     {
-        return view('firstpage');
+        
+        $table = $this->user->get();
+        if(Session::has('user')){
+
+        return view('firstpage',compact('table'));
+       
+        } else {
+            return redirect()->route('sign-in');
+        }
     }
 
     public function logout()
     {
+        Session::flush();
         return redirect()->route('sign-in');
     }
 
@@ -86,6 +107,18 @@ class RegistrationController extends Controller
         } else {
             return back();
         }
+    }
+
+    public function follow($id)
+    {
+    
+    
+        followers::create([
+            'user_id' => Session::get('user'),
+            'follower_id' => $id,
+            'status' => '0',
+            
+        ]);
     }
 
 }

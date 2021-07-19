@@ -20,6 +20,7 @@ use App\Http\Mail\ForgotPasswordMail;
 Route::get('/', function () {
     return view('welcome');
 });
+
 Route::get('/sign-up',[RegistrationController::class,'index'])->name('sign-up');
 Route::post('/add-user',[RegistrationController::class,'signUp'])->name('add-user');
 
@@ -36,3 +37,5 @@ Route::post('/password-change',[RegistrationController::class,'passwordChange'])
 Route::get('/send-mail/{id}',[RegistrationController::class,'sendMail'])->name('send-mail');
 
 Route::post('/password-changed',[RegistrationController::class,'passwordChanged'])->name('password-changed');
+
+Route::get('/follow/{id}',[RegistrationController::class,'follow'])->name('follow');

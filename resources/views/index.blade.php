@@ -14,7 +14,7 @@
     <br>
     <br>
 
-    <div class="card p-1 container float-left" style="width: 20rem;">
+    <div class="card p-1 container" style="width: 20rem;">
         <div class="card-header">
             <h2>Registration Form</h2>
         </div>
