@@ -13,4 +13,8 @@ class followers extends Model
     [
         'user_id','follower_id','satus'
     ];
+    public function user()
+    {
+        return $this->belongsTo(register::class, 'follower_id', 'id');
+    }
 }

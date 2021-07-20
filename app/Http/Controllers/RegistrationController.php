@@ -111,14 +111,37 @@ class RegistrationController extends Controller
 
     public function follow($id)
     {
-    
-    
         followers::create([
-            'user_id' => Session::get('user'),
-            'follower_id' => $id,
+            'user_id' => $id,
+            'follower_id' => Session::get('user'),
             'status' => '0',
-            
-        ]);
+         ]);
+         return back();
     }
 
+    public function follower()
+    {
+        $follower = $this->followers->where('user_id',Session::get('user'))->where('status',0)->with('user')->get();
+        return view('request',compact('follower'));
+    }
+
+    public function followBack($id)
+    {
+        
+        $this->followers->where('user_id',Session::get('user'))->where('follower_id',$id)->update(['status'=>'1']);
+        $this->followers->create([
+            'user_id' => Session::get('user'),
+            'follower_id' => $id,
+        ]);
+        return back();
+    }
+
+    public function followers()
+    {
+        $friends = $this->followers->where('status',1)->where('user_id',Session::get('user'))->get();
+        return view('followerslist',compact('friends'));
+
+    }
+
+  
 }

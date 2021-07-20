@@ -10,12 +10,15 @@
 <body>
     <br>
     <div class="row">
-        <div class="col-lg-10">
+        <div class="col-lg-8">
             <h1 class="text-center">Hi, welcome {{session('info')}}</h1>
         </div>    
-        <div class="col-lg-2">
+        <div class="col-lg-4">
+            <a href="{{route('followers')}}" class="btn btn-info">Followers</a>
+            <a href="{{route('follow-request')}}" class="btn btn-info">Follow Request</a>
             <a href="{{route('log-out')}}" class="btn btn-secondary">Logout</a>
         </div> 
+          
     </div>
     <table class="table table-hover">
         <tr>
@@ -34,10 +37,14 @@
             <td>{{$registered->country}}</td>
             <td>
                 <a class="btn btn-primary" href="{{route('follow',$registered->id)}}">Follow</a>
+            </td>
+         
         </tr>    
         @endforeach
         @endif
     </table>
+   
+
 
     
 

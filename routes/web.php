@@ -39,3 +39,7 @@ Route::get('/send-mail/{id}',[RegistrationController::class,'sendMail'])->name('
 Route::post('/password-changed',[RegistrationController::class,'passwordChanged'])->name('password-changed');
 
 Route::get('/follow/{id}',[RegistrationController::class,'follow'])->name('follow');
+Route::get('/follow-request',[RegistrationController::class,'follower'])->name('follow-request');
+Route::get('/follow-back/{id}',[RegistrationController::class,'followBack'])->name('follow-back');
+
+Route::get('/followers',[RegistrationController::class,'followers'])->name('followers');
