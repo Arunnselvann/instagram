@@ -6,6 +6,9 @@ use App\Http\Controllers\RegistrationController;
 
 use App\Http\Mail\ForgotPasswordMail;
 
+use App\Jobs\SendEmailJob;
+
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -20,14 +23,23 @@ use App\Http\Mail\ForgotPasswordMail;
 Route::get('/', function () {
     return view('welcome');
 });
+Route::group(['middleware'=> ['UserAccess']], function() {
 
+    Route::get('/welcome',[RegistrationController::class,'firstPage'])->name('welcome');
+    Route::get('/follow/{id}',[RegistrationController::class,'follow'])->name('follow');
+    Route::get('/follow-request',[RegistrationController::class,'followRequest'])->name('follow-request');
+    Route::get('/follow-back/{id}',[RegistrationController::class,'followBack'])->name('follow-back');
+    Route::get('/followers',[RegistrationController::class,'followers'])->name('followers');
+
+
+
+});
 Route::get('/sign-up',[RegistrationController::class,'index'])->name('sign-up');
 Route::post('/add-user',[RegistrationController::class,'signUp'])->name('add-user');
 
 Route::get('/sign-in',[RegistrationController::class,'signIn'])->name('sign-in');
 Route::post('/home',[RegistrationController::class,'home'])->name('home');
 
-Route::get('/welcome',[RegistrationController::class,'firstPage'])->name('welcome');
 
 Route::get('/log-out',[RegistrationController::class,'logout'])->name('log-out');
 
@@ -38,8 +50,8 @@ Route::get('/send-mail/{id}',[RegistrationController::class,'sendMail'])->name('
 
 Route::post('/password-changed',[RegistrationController::class,'passwordChanged'])->name('password-changed');
 
-Route::get('/follow/{id}',[RegistrationController::class,'follow'])->name('follow');
-Route::get('/follow-request',[RegistrationController::class,'follower'])->name('follow-request');
-Route::get('/follow-back/{id}',[RegistrationController::class,'followBack'])->name('follow-back');
 
-Route::get('/followers',[RegistrationController::class,'followers'])->name('followers');
+
+// queue
+
+Route::get('/email-queue',[RegistrationController::class,'emailQueue'])->name('email-queue');

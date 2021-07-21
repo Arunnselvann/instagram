@@ -9,13 +9,13 @@ use Illuminate\Support\Facades\DB;
 use App\Models\register;
 
 use App\Models\followers;
-
+use App\Mail\SendMailable;
+use Carbon\Carbon;
 use Mail;
-
 use Session;
 
 use App\Http\Mail\ForgotPasswordMail;
-
+use App\Jobs\SendEmailJob;
 class RegistrationController extends Controller
 {
     public function __construct(register $user, followers $followers)
@@ -59,8 +59,7 @@ class RegistrationController extends Controller
 
     public function firstPage()
     {
-        
-        $table = $this->user->get();
+        $table = $this->user->where('id','!=',Session::get('user'))->where('status','!=',1)->get();
         if(Session::has('user')){
 
         return view('firstpage',compact('table'));
@@ -112,35 +111,40 @@ class RegistrationController extends Controller
     public function follow($id)
     {
         followers::create([
-            'user_id' => $id,
-            'follower_id' => Session::get('user'),
+            'user_id' => Session::get('user'),
+            'follower_id' => $id,
             'status' => '0',
          ]);
          return back();
     }
 
-    public function follower()
+    public function followRequest()
     {
-        $follower = $this->followers->where('user_id',Session::get('user'))->where('status',0)->with('user')->get();
+        $follower = $this->followers->where('follower_id',Session::get('user'))->where('status',0)->with('user')->get();
         return view('request',compact('follower'));
     }
 
     public function followBack($id)
     {
         
-        $this->followers->where('user_id',Session::get('user'))->where('follower_id',$id)->update(['status'=>'1']);
-        $this->followers->create([
-            'user_id' => Session::get('user'),
-            'follower_id' => $id,
-        ]);
+       $this->followers->where('user_id',$id)->update(['status' => 1]);
+       
         return back();
     }
 
     public function followers()
     {
-        $friends = $this->followers->where('status',1)->where('user_id',Session::get('user'))->get();
+    
+        $friends = $this->followers->where('status',1)->where('follower_id',Session::get('user'))->get();
         return view('followerslist',compact('friends'));
 
+    }
+
+    public function emailQueue()
+    {
+        $emailJob = (new SendEmailJob())->delay(Carbon::now()->addSeconds(3));
+        dispatch( $emailJob);
+        echo 'email sent!';
     }
 
   

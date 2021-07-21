@@ -21,7 +21,7 @@
             <td>{{$loop->index+1}}</td>
             <td>{{$requested->user->first_name}}</td>
             <td>
-                <a href="{{route('follow-back',$requested->follower_id)}}" class="btn btn-primary">follow back</a>
+                <a href="{{route('follow-back',$requested->user_id)}}" class="btn btn-primary">follow back</a>
             </td>
         </tr>
         @endforeach
