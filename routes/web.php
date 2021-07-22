@@ -26,19 +26,27 @@ Route::get('/', function () {
 Route::group(['middleware'=> ['UserAccess']], function() {
 
     Route::get('/welcome',[RegistrationController::class,'firstPage'])->name('welcome');
+    Route::get('/find-friends',[RegistrationController::class,'findFriends'])->name('find-friends');
     Route::get('/follow/{id}',[RegistrationController::class,'follow'])->name('follow');
+
     Route::get('/follow-request',[RegistrationController::class,'followRequest'])->name('follow-request');
     Route::get('/follow-back/{id}',[RegistrationController::class,'followBack'])->name('follow-back');
     Route::get('/followers',[RegistrationController::class,'followers'])->name('followers');
+    Route::get('/unfollow/{id}',[RegistrationController::class,'unfollow'])->name('unfollow');
+
+    Route::get('/upload',[RegistrationController::class,'upload'])->name('upload');
+    Route::post('/file-upload',[RegistrationController::class,'fileUpload'])->name('file-upload');
 
 
 
 });
+
+Route::post('/home',[RegistrationController::class,'home'])->name('home');
+
 Route::get('/sign-up',[RegistrationController::class,'index'])->name('sign-up');
 Route::post('/add-user',[RegistrationController::class,'signUp'])->name('add-user');
 
 Route::get('/sign-in',[RegistrationController::class,'signIn'])->name('sign-in');
-Route::post('/home',[RegistrationController::class,'home'])->name('home');
 
 
 Route::get('/log-out',[RegistrationController::class,'logout'])->name('log-out');

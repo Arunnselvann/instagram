@@ -17,4 +17,8 @@ class followers extends Model
     {
         return $this->belongsTo(register::class, 'follower_id', 'id');
     }
+    public function follower()
+    {
+        return $this->belongsTo(register::class,'user_id','id');
+    }
 }

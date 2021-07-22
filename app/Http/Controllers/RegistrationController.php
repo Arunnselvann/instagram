@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 use App\Models\register;
+use App\Models\Uploads;
+use App\Helpers\imageUpload;
 
 use App\Models\followers;
 use App\Mail\SendMailable;
@@ -18,6 +20,7 @@ use App\Http\Mail\ForgotPasswordMail;
 use App\Jobs\SendEmailJob;
 class RegistrationController extends Controller
 {
+    use imageUpload;
     public function __construct(register $user, followers $followers)
     {
         $this->user = $user;
@@ -59,14 +62,30 @@ class RegistrationController extends Controller
 
     public function firstPage()
     {
-        $table = $this->user->where('id','!=',Session::get('user'))->where('status','!=',1)->get();
+      
         if(Session::has('user')){
 
-        return view('firstpage',compact('table'));
+        return view('firstpage');
        
         } else {
             return redirect()->route('sign-in');
         }
+    }
+
+    public function upload()
+    {
+        return view('upload');
+    }
+
+    public function fileUpload(Request $request)
+    {
+        $image = new Uploads();
+        $image->image_name = $this->commonImageUpload($request->file,'insta');
+
+        $image->user_id =  Session::get('user');
+        $image->save();
+        
+        return back();
     }
 
     public function logout()
@@ -108,19 +127,31 @@ class RegistrationController extends Controller
         }
     }
 
+    public function findFriends()
+    {
+        $table = $this->user->where('id','!=',Session::get('user'))->get();
+        return view('find-friends',compact('table'));
+    }
+
     public function follow($id)
     {
-        followers::create([
-            'user_id' => Session::get('user'),
-            'follower_id' => $id,
-            'status' => '0',
-         ]);
-         return back();
+        $checkAlreadyRequested = followers::where('user_id',Session::get('user'))->where('follower_id', $id)->count();
+        if ($checkAlreadyRequested < 1) {
+            # code...
+            followers::create([
+                'user_id' => Session::get('user'),
+                'follower_id' => $id,
+                'status' => '0',
+            ]);
+            return back()->with('success','Follow request sent');
+        } else {
+            return back()->with('error','Already request sent');
+        }
     }
 
     public function followRequest()
     {
-        $follower = $this->followers->where('follower_id',Session::get('user'))->where('status',0)->with('user')->get();
+        $follower = $this->followers->where('follower_id',Session::get('user'))->where('status',0)->with('follower')->get();
         return view('request',compact('follower'));
     }
 
@@ -128,16 +159,23 @@ class RegistrationController extends Controller
     {
         
        $this->followers->where('user_id',$id)->update(['status' => 1]);
-       
-        return back();
+         return back()->with('message','Follow request sent');
     }
 
     public function followers()
     {
-    
-        $friends = $this->followers->where('status',1)->where('follower_id',Session::get('user'))->get();
+        
+        $friends =$this->followers->where('status',1)->where('user_id',Session::get('user'))->get();
+        dd($friends);
         return view('followerslist',compact('friends'));
+        
+       
 
+    }
+    public function unfollow($id)
+    {
+        $this->followers->where('follower_id',Session::get('user'))->where('user_id',$id)->where('status',1)->delete();
+        return back();
     }
 
     public function emailQueue()

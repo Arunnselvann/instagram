@@ -5,11 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class register extends Model
+class Uploads extends Model
 {
-    protected $table = 'registration';
+    use HasFactory;
+    protected $table = 'uploads';
     protected $fillable =
     [
-        'first_name','last_name','email','password','country','image'
+        'user_id','image_name'
     ];
 }

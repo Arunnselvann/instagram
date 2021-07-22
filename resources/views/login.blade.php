@@ -21,8 +21,10 @@
             <input type="password" name="password"><br>
             <br>
             <div class="row">
-            <a type="submit" name="forgot" href="{{('forgot-password')}}" class="btn btn-secondary col-lg-6">forgot password</a>
                 <input type="submit" name="login" value="login" class="btn btn-info col-lg-6">
+                    <br><br>
+                <a type="submit" name="forgot" href="{{('forgot-password')}}" class="btn btn-secondary col-lg-6">forgot password</a>
+
                 
             </div>
             <br>
