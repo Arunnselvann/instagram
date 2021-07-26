@@ -11,7 +11,7 @@
 <body>
 
     <br>
-    <h1 class="text-center"> Friends List </h1>
+    <h1 class="text-center"> Followers </h1>
     <br>
     <table class="table table-hover">
         <tr>
@@ -20,19 +20,17 @@
             <td>Last name</td>
             <td>Action</td>
         </tr>
-        @if(isset($friends))
-        @foreach($friends as $followed)
+        
+        @if(isset($requested))
+        @foreach($requested as $followed)
         <tr>
             <td>{{$loop->index+1}}</td>
-            @if($followed->user_id == Session::get('user'))
-            <td>{{$followed->user->first_name}}</td>
-            <td>{{$followed->user->last_name}}</td>
-            @else
+            
             <td>{{$followed->follower->first_name}}</td>
             <td>{{$followed->follower->last_name}}</td>
-            @endif
+            
             <td>
-                <a class="btn btn-warning" href="{{route('unfollow',$followed->follower_id)}}">Unfollow</a>
+                <a class="btn btn-warning" href="{{route('unfollow',$followed->follower_id)}}">follow back</a>
             </td>
         </tr>
         @endforeach

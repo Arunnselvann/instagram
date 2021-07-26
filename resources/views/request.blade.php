@@ -15,19 +15,13 @@
             <td>Follower_id</td>
             <td>Action</td>
         </tr>
-        @if(isset($follower))
-        @foreach($follower as $requested)
+        @if(isset($following))
+        @foreach($following as $requested)
         <tr>
             <td>{{$loop->index+1}}</td>
-            @if($requested->follower_id == Session::get('user'))
-            <td>{{$requested->follower->first_name}}</td>
-
-            @else
             <td>{{$requested->user->first_name}}</td>
-            
-            @endif
             <td>
-                <a href="{{route('follow-back',$requested->user_id)}}" class="btn btn-primary">follow back</a>
+                <a href="#" class="btn btn-primary">unfollow</a>
             </td>
         </tr>
         @endforeach

@@ -82,8 +82,17 @@ class RegistrationController extends Controller
         $image = new Uploads();
         $image->image_name = $this->commonImageUpload($request->file,'insta');
 
-        $image->user_id =  Session::get('user');
+        $image->user_id = Session::get('user');
         $image->save();
+        $image = Uploads::findOrFail($image_name);
+
+        $image_file = Uploads::make($image->image_name);
+   
+        $response = Response::make($image_file->encode('jpeg'));
+   
+        $response->header('Content-Type', 'image/jpeg');
+   
+        return $response;
         
         return back();
     }
@@ -164,14 +173,18 @@ class RegistrationController extends Controller
 
     public function followers()
     {
+            
+        $requested =$this->followers->where('follower_id',Session::get('user'))->with('follower')->get();
+        return view('followerslist',compact('requested'));
         
-        $friends =$this->followers->where('status',1)->where('user_id',Session::get('user'))->get();
-        dd($friends);
-        return view('followerslist',compact('friends'));
-        
-       
-
     }
+
+    public function following()
+    {
+        $following = $this->followers->where('user_id',Session::get('user'))->with('user')->get();
+        return view('request',compact('following'));
+    }
+
     public function unfollow($id)
     {
         $this->followers->where('follower_id',Session::get('user'))->where('user_id',$id)->where('status',1)->delete();

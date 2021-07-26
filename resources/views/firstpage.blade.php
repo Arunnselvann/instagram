@@ -16,6 +16,7 @@
         </div>    
         <div class="col-lg-4">
             <a href="{{route('followers')}}" class="btn btn-info">Followers</a>
+            <a href="{{route('following')}}" class="btn btn-info">Following</a>
             <a href="{{route('follow-request')}}" class="btn btn-info">Follow Request</a>
             <a href="{{route('find-friends')}}" class="btn btn-primary">Find Friends</a>
             <a href="{{route('log-out')}}" class="btn btn-secondary">Logout</a>
@@ -23,9 +24,12 @@
         </div> 
         <br>
         <br>
-        <div class="col-lg-6 offset-3">
+        <div class="col-lg-2 offset-8">
             <a href="{{route('upload')}}" class="btn btn-success">Upload file</a>
         </div>
+        <br>
+        <img src="C:\xampp\htdocs\instagram\public\image\s20210722141113000.dd.jpg" />
+
           
     </div>
    

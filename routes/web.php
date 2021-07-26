@@ -32,6 +32,7 @@ Route::group(['middleware'=> ['UserAccess']], function() {
     Route::get('/follow-request',[RegistrationController::class,'followRequest'])->name('follow-request');
     Route::get('/follow-back/{id}',[RegistrationController::class,'followBack'])->name('follow-back');
     Route::get('/followers',[RegistrationController::class,'followers'])->name('followers');
+    Route::get('/following',[RegistrationController::class,'following'])->name('following');
     Route::get('/unfollow/{id}',[RegistrationController::class,'unfollow'])->name('unfollow');
 
     Route::get('/upload',[RegistrationController::class,'upload'])->name('upload');

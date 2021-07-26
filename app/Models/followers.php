@@ -11,7 +11,7 @@ class followers extends Model
     protected $table = 'followers';
     protected $fillable =
     [
-        'user_id','follower_id','satus'
+        'user_id','follower_id','status'
     ];
     public function user()
     {
