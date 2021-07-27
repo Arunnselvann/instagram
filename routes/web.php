@@ -29,7 +29,6 @@ Route::group(['middleware'=> ['UserAccess']], function() {
     Route::get('/find-friends',[RegistrationController::class,'findFriends'])->name('find-friends');
     Route::get('/follow/{id}',[RegistrationController::class,'follow'])->name('follow');
 
-    Route::get('/follow-request',[RegistrationController::class,'followRequest'])->name('follow-request');
     Route::get('/follow-back/{id}',[RegistrationController::class,'followBack'])->name('follow-back');
     Route::get('/followers',[RegistrationController::class,'followers'])->name('followers');
     Route::get('/following',[RegistrationController::class,'following'])->name('following');

@@ -10,28 +10,39 @@
 <body>
 
     <br>
-    <div class="row">
         <div class="col-lg-8">
             <h1 class="text-center">Hi, welcome {{Session::get('user')}}</h1>
-        </div>    
-        <div class="col-lg-4">
-            <a href="{{route('followers')}}" class="btn btn-info">Followers</a>
-            <a href="{{route('following')}}" class="btn btn-info">Following</a>
-            <a href="{{route('follow-request')}}" class="btn btn-info">Follow Request</a>
-            <a href="{{route('find-friends')}}" class="btn btn-primary">Find Friends</a>
-            <a href="{{route('log-out')}}" class="btn btn-secondary">Logout</a>
-
-        </div> 
-        <br>
-        <br>
-        <div class="col-lg-2 offset-8">
-            <a href="{{route('upload')}}" class="btn btn-success">Upload file</a>
         </div>
+        <table class="table">
+            <tr>
+            <div class="container">
+                <td> <a href="{{route('followers')}}" class="btn btn-info">Followers</a> </td>
+                <td> <a href="{{route('following')}}" class="btn btn-info">Following</a> </td>
+                <td> <a href="{{route('upload')}}" class="btn btn-primary">Upload file</a> </td>
+                <td> <a href="{{route('find-friends')}}" class="btn btn-success">Find Friends</a> </td>
+                <td> <a href="{{route('log-out')}}" class="btn btn-secondary">Logout</a> </td>
+            </div> 
+            </tr>
+        </table>
         <br>
-        <img src="C:\xampp\htdocs\instagram\public\image\s20210722141113000.dd.jpg" />
+        <br>                                                                                     
+        <br>
+
+        @foreach($images as $img)
+        <table class="table table-borderless container">
+            <tr>
+               
+                <td>
+                </td>
+                <td>
+                    <img src="{{url('/')}}/image/{{$img->image_name}}" width="500px" height="500px">
+                </td>
+            </tr>
+        </table>
+        @endforeach
 
           
-    </div>
+
    
 
 

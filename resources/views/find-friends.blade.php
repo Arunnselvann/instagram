@@ -25,7 +25,7 @@
             <td>s.no</td>
             <td>First Name</td>
             <td>Last Name</td>
-            <td>Country</td>
+            <td>Country</td>    
             <td>Action</td>
         </tr>
         @if(isset($table))

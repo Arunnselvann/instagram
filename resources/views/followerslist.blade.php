@@ -30,7 +30,7 @@
             <td>{{$followed->follower->last_name}}</td>
             
             <td>
-                <a class="btn btn-warning" href="{{route('unfollow',$followed->follower_id)}}">follow back</a>
+                <a class="btn btn-warning" href="{{route('follow-back',$followed->user_id)}}">follow back</a>
             </td>
         </tr>
         @endforeach

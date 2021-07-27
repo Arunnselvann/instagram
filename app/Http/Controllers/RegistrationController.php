@@ -64,8 +64,8 @@ class RegistrationController extends Controller
     {
       
         if(Session::has('user')){
-
-        return view('firstpage');
+        $images = Uploads::all();
+        return view('firstpage',compact('images'));
        
         } else {
             return redirect()->route('sign-in');
@@ -84,17 +84,8 @@ class RegistrationController extends Controller
 
         $image->user_id = Session::get('user');
         $image->save();
-        $image = Uploads::findOrFail($image_name);
-
-        $image_file = Uploads::make($image->image_name);
-   
-        $response = Response::make($image_file->encode('jpeg'));
-   
-        $response->header('Content-Type', 'image/jpeg');
-   
-        return $response;
         
-        return back();
+        return redirect()->route('welcome');
     }
 
     public function logout()
@@ -158,12 +149,6 @@ class RegistrationController extends Controller
         }
     }
 
-    public function followRequest()
-    {
-        $follower = $this->followers->where('follower_id',Session::get('user'))->where('status',0)->with('follower')->get();
-        return view('request',compact('follower'));
-    }
-
     public function followBack($id)
     {
         
@@ -187,7 +172,7 @@ class RegistrationController extends Controller
 
     public function unfollow($id)
     {
-        $this->followers->where('follower_id',Session::get('user'))->where('user_id',$id)->where('status',1)->delete();
+        $this->followers->where('follower_id',$id)->where('user_id',Session::get('user'))->with('user')->delete();
         return back();
     }
 
